@@ -1,0 +1,36 @@
+Village Layout:
+
+- Buildings connected to roads
+- pathways going off of roads that connect the village to resources
+- In the center there will be a town center building which will be the main user interaction building that will
+  be the way for the player to progress through stages in the world
+- Default buildings will be a blacksmith (where villagers can receive tools from), a resource collection building
+
+Villagers:
+
+- Have a path finding algorithm for them to be able to navigate through buildings and also find roads/pathways
+- Each villager can be designated a task from the player to do a certain task until told otherwise
+- Can collect resources and bring them back to the village
+- Inventory size will be upgradable but on a global level instead of allocating extra inventory space to villagers
+-
+
+Resources:
+
+- Gold can be mined with the use of a pickaxe
+- Wood can be harvested with the use of a hatchet
+- Grain can be planted and harvested with the use of a sickle/hoe
+-
+
+World Layout:
+
+- Resources randomly scattered throughout the world
+-
+
+User Interface:
+
+- Action bar in the middle at the bottom of the window
+- Mini-map where you can see resources/buildings/roads/pathways as different colours on it
+- Highlight villagers with a certain action selected
+- Designate tasks to villagers for resources by clicking on the wanted resource in the world
+- Zoom in and out of the world by scrolling with the mouse
+-
