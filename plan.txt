@@ -9,6 +9,7 @@ Village Layout:
 Villagers:
 
 - Have a path finding algorithm for them to be able to navigate through buildings and also find roads/pathways
+- Path finding algorithm prioritises pathways then roads and then the resource drop off building when going back
 - Each villager can be designated a task from the player to do a certain task until told otherwise
 - Can collect resources and bring them back to the village
 - Inventory size will be upgradable but on a global level instead of allocating extra inventory space to villagers
