@@ -1,21 +1,25 @@
 """The main file where everything will run off of"""
-import pygame
+import pyglet
+from src.Villager import Villager
 
-def main():
-    pygame.init()
+window = pyglet.window.Window()
+label = pyglet.text.Label('Test message', x=window.width//2, y=window.height//2, anchor_x='center', anchor_y='center')
+villager = Villager()
 
-    # logo = pygame.image.load('image_path')
-    # pygame.display.set_icon(logo)
-    pygame.display.set_caption('Village simulator')
+# @window.event
+# def on_key_press(symbol, modifiers):
+#     print(symbol, 'was pressed')
 
-    screen = pygame.display.set_mode((960, 540))
+# @window.event
+# def on_mouse_press(x, y, button, modifiers):
+#     print(button, 'mouse was clicked')
 
-    running = True
+window.push_handlers(pyglet.window.event.WindowEventLogger())
 
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
+@window.event
+def on_draw():
+    window.clear()
+    label.draw()
+    villager.sprite.blit(0, 0)
 
-if __name__ == '__main__':
-    main()
+pyglet.app.run()
