@@ -1,6 +1,7 @@
-class Villager {
-    constructor(x, y){
-        this.pos = new Vector(x, y)
+class Villager extends Entity {
+    constructor(x, y) {
+        const sideLength = assets['IMG']['villager-still'].width * 2
+        super(x, y, sideLength, sideLength)
         this.speed = 4
     }
 
@@ -11,6 +12,10 @@ class Villager {
     }
 
     draw(ctx) {
-        ctx.drawImage(assets['IMG']['villager-still'], this.pos.x, this.pos.y, 32, 96)
+        const img = assets['IMG']['villager-still']
+        const imgWidth = img.width * 4
+        const imgHeight = img.height * 4
+
+        ctx.drawImage(img, this.pos.x - imgWidth / 2, this.pos.y - imgHeight, imgWidth, imgHeight)
     }
 }

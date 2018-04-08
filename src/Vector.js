@@ -4,13 +4,13 @@ class Vector {
         this.y = y
     }
 
-    add(vector_or_x, y=null) {
-        if (vector_or_x instanceof Vector) {
-            const vec = vector_or_x
+    add(vectorOrX, y=null) {
+        if (vectorOrX instanceof Vector) {
+            const vec = vectorOrX
             this.x += vec.x
             this.y += vec.y
-        } else if (typeof(vector_or_x) === 'number' && typeof(y) === 'number'){
-            this.x += vector_or_x
+        } else if (typeof(vectorOrX) === 'number' && typeof(y) === 'number'){
+            this.x += vectorOrX
             this.y += y
         } else {
             console.error('Error Vector.add didn\'t receive the correct arguments')

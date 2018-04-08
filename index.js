@@ -20,6 +20,7 @@ console.log(assets)
 
 let canvas = document.getElementById('game-canvas')
 let ctx = canvas.getContext('2d')
+console.log(ctx)
 ctx.imageSmoothingEnabled = false
 
 game = new Engine(canvas, ctx)
