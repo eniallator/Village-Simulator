@@ -2,6 +2,8 @@ class Villager extends Entity {
     constructor(x, y) {
         const sideLength = assets['IMG']['villager-still'].width * 2
         super(x, y, sideLength, sideLength)
+
+        this.taskQueue = []
         this.speed = 4
     }
 
