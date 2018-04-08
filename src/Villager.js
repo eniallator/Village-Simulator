@@ -1,10 +1,13 @@
 class Villager {
     constructor(x, y){
         this.pos = new Vector(x, y)
+        this.speed = 4
     }
 
-    move(vec) {
-        this.pos.add(vec)
+    moveTo(vec) {
+        const diff = this.pos.getDifference(vec)
+        const norm = diff.getNormalised()
+        this.pos.add(norm.multiply(this.speed))
     }
 
     draw(ctx) {

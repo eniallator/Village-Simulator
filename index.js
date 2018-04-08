@@ -18,14 +18,19 @@ function load_assets() {
 let assets = load_assets()
 console.log(assets)
 
-let ctx = document.getElementById('game-canvas').getContext('2d')
+let canvas = document.getElementById('game-canvas')
+let ctx = canvas.getContext('2d')
 ctx.imageSmoothingEnabled = false
 
-game = new Engine(ctx)
+game = new Engine(canvas, ctx)
 
-game.render()
+function run() {
+    game.update()
+    game.render()
+}
 
-// ctx.drawImage(assets['IMG']['villager-still'], 50, 50, 32, 96)
+setInterval(run, 1/30)
+// run()
 
 /*
 setInterval(drawFunction, timeInMilliseconds)
