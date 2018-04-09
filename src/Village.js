@@ -1,7 +1,7 @@
 class Village {
     constructor(x, y) {
-        this.townCentre = new TownCentre(x, y)
-        console.log(this.townCentre.pos)
+        this.villageCentre = new VillageCentre(x, y)
+        console.log(this.villageCentre.pos)
         this.villagers = []
 
         for (var i = 0; i < 5; i++) {
@@ -12,7 +12,7 @@ class Village {
 
     update() {
         for (let villager of this.villagers)
-            villager.moveTo(this.townCentre.pos)
+            villager.moveTo(this.villageCentre.pos)
     }
 
     draw(ctx) {
