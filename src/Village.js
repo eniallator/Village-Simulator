@@ -4,7 +4,7 @@ class Village {
         console.log(this.townCentre.pos)
         this.villagers = []
 
-        for (var i = 0; i < 1; i++) {
+        for (var i = 0; i < 5; i++) {
             let newVillager = new Villager(Math.random() * 960, Math.random() * 540)
             this.villagers.push(newVillager)
         }

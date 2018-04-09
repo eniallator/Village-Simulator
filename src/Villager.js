@@ -10,7 +10,15 @@ class Villager extends Entity {
     moveTo(vec) {
         const diff = this.pos.getDifference(vec)
         const norm = diff.getNormalised()
-        this.pos.add(norm.multiply(this.speed))
+        
+        const diffMagnitude = diff.magnitude()
+        if (diffMagnitude < this.speed) {
+            norm.multiply(diffMagnitude)
+        } else {
+            norm.multiply(this.speed)
+        }
+
+        this.pos.add(norm)
     }
 
     draw(ctx) {

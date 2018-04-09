@@ -44,7 +44,7 @@ class Vector {
 
     getNormalised() {
         if (this.x || this.y) {
-            const total = this.x + this.y
+            const total = Math.abs(this.x) + Math.abs(this.y)
             return new Vector(this.x / total, this.y / total)
         } else {
             return new Vector()
@@ -53,7 +53,11 @@ class Vector {
 
     getDifference(vector) {
         if (vector instanceof Vector) {
-            return new Vector(this.x - vector.x, this.y - vector.y)
+            return new Vector(vector.x - this.x, vector.y - this.y)
         }
+    }
+
+    magnitude() {
+        return Math.sqrt(this.x * this.x + this.y * this.y)
     }
 }
