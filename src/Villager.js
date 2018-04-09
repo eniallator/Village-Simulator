@@ -5,6 +5,9 @@ class Villager extends Entity {
 
         this.taskQueue = []
         this.speed = 4
+        this.actions = {
+            walk: task => this.moveTo(task.hitbox.pos)
+        }
     }
 
     moveTo(vec) {
@@ -21,10 +24,23 @@ class Villager extends Entity {
         this.pos.add(norm)
     }
 
+    addTask(task) {
+        if (!task instanceof Task)
+            return
+        
+        this.taskQueue.push(task)
+    }
+
+    update() {
+        if (this.taskQueue.length > 0) {
+            this.actions[this.taskQueue[0].action].call(this, this.taskQueue[0])
+        }
+    }
+
     draw(ctx) {
         const img = assets['IMG']['villager-still']
-        const imgWidth = img.width * 4
-        const imgHeight = img.height * 4
+        const imgWidth = img.width * 2
+        const imgHeight = img.height * 2
 
         ctx.drawImage(img, this.pos.x - imgWidth / 2, this.pos.y - imgHeight, imgWidth, imgHeight)
     }

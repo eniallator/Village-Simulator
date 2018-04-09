@@ -2,7 +2,7 @@ Village Layout:
 
 - Buildings connected to roads
 - pathways going off of roads that connect the village to resources
-- In the center there will be a town center building which will be the main user interaction building that will
+- In the center there will be a village center building which will be the main user interaction building that will
   be the way for the player to progress through stages in the world
 - Default buildings will be a blacksmith (where villagers can receive tools from), a resource collection building
 
