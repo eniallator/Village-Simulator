@@ -1,20 +1,21 @@
+ACTIONS = {
+    walk: function(task) { if (!this.hitbox.detectCollision(task.hitbox)) this.moveTo(task.hitbox.pos) }
+}
+
 class Villager extends Entity {
     constructor(x, y) {
         const sideLength = assets['IMG']['villager-still'].width * 2
         super(x, y, sideLength, sideLength)
 
         this.taskQueue = []
-        this.speed = 4
-        this.actions = {
-            walk: task => this.moveTo(task.hitbox.pos)
-        }
+        this.speed = 2
     }
 
-    moveTo(vec) {
-        const diff = this.pos.getDifference(vec)
+    moveTo(point) {
+        const diff = this.pos.getDifference(point)
         const norm = diff.getNormalised()
         
-        const diffMagnitude = diff.magnitude()
+        const diffMagnitude = diff.getMagnitude()
         if (diffMagnitude < this.speed) {
             norm.multiply(diffMagnitude)
         } else {
@@ -33,7 +34,7 @@ class Villager extends Entity {
 
     update() {
         if (this.taskQueue.length > 0) {
-            this.actions[this.taskQueue[0].action].call(this, this.taskQueue[0])
+            ACTIONS[this.taskQueue[0].action].call(this, this.taskQueue[0])
         }
     }
 

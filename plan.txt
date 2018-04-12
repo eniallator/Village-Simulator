@@ -35,3 +35,6 @@ User Interface:
 - Designate tasks to villagers for resources by clicking on the wanted resource in the world
 - Zoom in and out of the world by scrolling with the mouse
 -
+
+
+Grid or coordinate system? - Pathfinding?

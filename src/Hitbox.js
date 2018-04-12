@@ -1,35 +1,26 @@
-class Hitbox{
-    constructor(vectorOrX, y, width, height=null) {
-        if (vectorOrX instanceof Vector) {
-            this.pos = vectorOrX
+class Hitbox {
+    constructor(pointOrX, y, width, height=null) {
+        if (pointOrX instanceof Point) {
+            this.pos = pointOrX
             this.width = y
             this.height = width
         } else {
-            this.pos = new Vector(vectorOrX, y)
+            this.pos = new Point(pointOrX, y)
             this.width = width
             this.height = height
         }
     }
 
-    AABBCollision(box) {
-        if (box instanceof Hitbox &&
+    detectCollision(boxOrPoint) {
+        let box = boxOrPoint
+        if (boxOrPoint instanceof Point)
+            box = new Hitbox(boxOrPoint, 0, 0)
+        
+        return (box instanceof Hitbox) &&
             this.x - this.width / 2 < box.x + box.width / 2 &&
             box.x - box.width / 2 <= this.x + this.width / 2 &&
             this.y - this.height / 2 < box.y + box.height / 2 &&
-            box.y - box.height / 2 <= this.y + this.height / 2)
-            return true
-
-        return false
-    }
-
-    pointCollision(vec) {
-        if (vec instanceof Vector &&
-            this.x - this.width / 2 < vec.x &&
-            vec.x <= this.x + this.width / 2 &&
-            this.y - this.height / 2 < vec.y &&
-            vec.y <= this.y + this.height / 2)
-            return true
-        return false
+            box.y - box.height / 2 <= this.y + this.height / 2
     }
 
     get x () { return this.pos.x }

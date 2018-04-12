@@ -1,6 +1,6 @@
 class Entity {
     constructor(x, y, width, height) {
-        this.pos = new Vector(x, y)
+        this.pos = new Point(x, y)
         this.hitbox = new Hitbox(this.pos, width, height)
     }
 
