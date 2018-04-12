@@ -1,7 +1,6 @@
 class Village {
     constructor(x, y) {
         this.villageCentre = new VillageCentre(x, y)
-        console.log(this.villageCentre.pos)
         this.villagers = []
 
         let centreTask = new Task('walk to VillageCentre', 'walk', this.villageCentre.hitbox, this.villageCentre)
