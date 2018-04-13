@@ -38,3 +38,6 @@ User Interface:
 
 
 Grid or coordinate system? - Pathfinding?
+- Make a network of nodes that will be each of the 4 corners of any obstacle
+- Then when calculating a path, first figure out what nodes have line of sight of eachother and make an edge also take into account hitbox size
+- After the network has been created, cache the network and reuse for any equal hitboxes and only update the network when any obstacles update
