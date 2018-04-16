@@ -9,7 +9,7 @@ class Engine {
         this.village.update()
     }
 
-    render() {
+    draw() {
         this.ctx.fillStyle = 'white'
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
