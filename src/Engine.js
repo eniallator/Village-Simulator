@@ -12,6 +12,8 @@ class Engine {
     draw() {
         this.ctx.fillStyle = 'white'
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
+        this.ctx.fillStyle = 'black'
+        this.ctx.strokeStyle = 'black'
 
         this.village.draw(this.ctx)
     }
