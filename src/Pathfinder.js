@@ -1,11 +1,13 @@
+import Hitbox from 'Hitbox'
+
 class Pathfinder {
     constructor() {
         this.networks = {}
     }
 
-    buildNetwork(box) {
-        // figure out what nodes have line of sight of eachother here and make edges
-    }
+    // buildNetwork(box) {
+    //     // figure out what nodes have line of sight of eachother here and make edges
+    // }
 
     addNetwork(box) {
         if (!(box instanceof Hitbox))
@@ -18,3 +20,5 @@ class Pathfinder {
         }
     }
 }
+
+export default Pathfinder

@@ -1,3 +1,6 @@
+import Point from 'Point'
+import Hitbox from 'Hitbox'
+
 class Entity {
     constructor(x, y, width, height) {
         this.pos = new Point(x, y)
@@ -9,3 +12,5 @@ class Entity {
     get width() { return this.hitbox.width }
     get height() { return this.hitbox.height }
 }
+
+export default Entity

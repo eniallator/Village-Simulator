@@ -1,3 +1,5 @@
+import Village from 'Village'
+
 class Engine {
     constructor(canvas, ctx) {
         this.canvas = canvas
@@ -18,3 +20,5 @@ class Engine {
         this.village.draw(this.ctx)
     }
 }
+
+export default Engine

@@ -13,3 +13,5 @@ class Task {
         return new Task(this.name, this.action, this.hitbox, this.target)
     }
 }
+
+export default Task

@@ -1,4 +1,12 @@
+import Entity from 'Entity'
+import Point from 'Point'
+
 class Building extends Entity {
+    // constructor(map) {
+    //     super(arguments)
+    //     map.register(this.hitbox)
+    // }
+
     getNodes(hitbox) {
         let nodes = []
         for (let xDir = -1; xDir <= 1; xDir += 2) {
@@ -14,3 +22,5 @@ class Building extends Entity {
         return nodes
     }
 }
+
+export default Building

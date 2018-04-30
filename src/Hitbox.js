@@ -1,3 +1,5 @@
+import Point from 'Point'
+
 class Hitbox {
     constructor(pointOrX, y, width, height=null) {
         if (pointOrX instanceof Point) {
@@ -33,3 +35,5 @@ class Hitbox {
     get y() { return this.pos.y }
     set y(newY) { this.pos.y = newY }
 }
+
+export default Hitbox

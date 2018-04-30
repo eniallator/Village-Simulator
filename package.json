@@ -1,0 +1,23 @@
+{
+  "name": "village-simulator",
+  "version": "1.0.0",
+  "description": "A simulator game where you control what villager's tasks are to do and slowly progress the village by building buildings and also upgrading existing ones.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel index.html --no-hmr"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eniallator/Village-Simulator.git"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/eniallator/Village-Simulator/issues"
+  },
+  "homepage": "https://github.com/eniallator/Village-Simulator#readme",
+  "devDependencies": {
+    "parcel-bundler": "^1.7.1"
+  }
+}
