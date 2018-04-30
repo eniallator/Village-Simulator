@@ -1,5 +1,5 @@
-import Point from 'Point'
-import Hitbox from 'Hitbox'
+import Point from './Point'
+import Hitbox from './Hitbox'
 
 class Entity {
     constructor(x, y, width, height) {

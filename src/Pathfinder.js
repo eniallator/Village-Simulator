@@ -1,4 +1,4 @@
-import Hitbox from 'Hitbox'
+import Hitbox from './Hitbox'
 
 class Pathfinder {
     constructor() {

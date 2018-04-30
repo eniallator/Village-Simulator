@@ -1,4 +1,4 @@
-import Building from '.src/Building'
+import Building from './Building'
 
 class VillageCentre extends Building {
     constructor(x, y) {

@@ -1,5 +1,5 @@
-import VillageCentre from 'VillageCentre'
-// import Task from 'task'
+import VillageCentre from './VillageCentre'
+// import Task from './task'
 
 class Village {
     constructor(x, y) {

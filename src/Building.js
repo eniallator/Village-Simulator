@@ -1,5 +1,5 @@
-import Entity from 'Entity'
-import Point from 'Point'
+import Entity from './Entity'
+import Point from './Point'
 
 class Building extends Entity {
     // constructor(map) {

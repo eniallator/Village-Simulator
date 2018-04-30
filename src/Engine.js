@@ -1,4 +1,4 @@
-import Village from 'Village'
+import Village from './Village'
 
 class Engine {
     constructor(canvas, ctx) {

@@ -1,4 +1,4 @@
-import Point from 'Point'
+import Point from './Point'
 
 class Hitbox {
     constructor(pointOrX, y, width, height=null) {
