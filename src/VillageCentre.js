@@ -1,8 +1,8 @@
 import Building from './Building'
 
 class VillageCentre extends Building {
-    constructor(x, y) {
-        super(x, y, 40, 40)
+    constructor(map, x, y) {
+        super(map, x, y, 40, 40)
     }
 }
 

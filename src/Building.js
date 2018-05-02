@@ -2,10 +2,12 @@ import Entity from './Entity'
 import Point from './Point'
 
 class Building extends Entity {
-    // constructor(map) {
-    //     super(arguments)
-    //     map.register(this.hitbox)
-    // }
+    constructor(map) {
+        let argArray = [...arguments].slice(1)
+        super(...argArray)
+
+        map.registerObstacle(this)
+    }
 
     getNodes(hitbox) {
         let nodes = []

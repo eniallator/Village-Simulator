@@ -1,14 +1,16 @@
-import Village from './Village'
+import Map from './Map'
+import Point from './Point'
 
 class Engine {
     constructor(canvas, ctx) {
         this.canvas = canvas
         this.ctx = ctx
-        this.village = new Village(this.canvas.width / 2, this.canvas.height / 2)
+
+        this.map = new Map(new Point(canvas.width, canvas.height))
     }
 
     update() {
-        this.village.update()
+        this.map.update()
     }
 
     draw() {
@@ -17,7 +19,7 @@ class Engine {
         this.ctx.fillStyle = 'black'
         this.ctx.strokeStyle = 'black'
 
-        this.village.draw(this.ctx)
+        this.map.draw(this.ctx)
     }
 }
 
