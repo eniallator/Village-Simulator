@@ -1,5 +1,5 @@
 import Entity from './Entity'
-import Point from './Point'
+import Hitbox from './Hitbox'
 
 class Building extends Entity {
     constructor(map) {
@@ -13,12 +13,14 @@ class Building extends Entity {
         let nodes = []
         for (let xDir = -1; xDir <= 1; xDir += 2) {
             for (let yDir = -1; yDir <= 1; yDir += 2) {
-                let pos = new Point(
+                let nodeHitbox = new Hitbox(
                     this.pos.x + xDir * (this.width / 2 + hitbox.width / 2),
-                    this.pos.y + yDir * (this.height / 2 + hitbox.height / 2)
+                    this.pos.y + yDir * (this.height / 2 + hitbox.height / 2),
+                    hitbox.width,
+                    hitbox.height
                 )
-
-                nodes.push({pos: pos, objectRef: this})
+                
+                nodes.push({hitbox: nodeHitbox, objectRef: this})
             }
         }
         return nodes

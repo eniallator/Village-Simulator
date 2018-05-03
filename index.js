@@ -1,27 +1,7 @@
-// spritesheet for all images
-
 import Engine from './src/Engine'
 // import Villager from './src/Villager'
 // import Building from './src/Building'
 // import Point from './src/Point'
-
-function load_assets() {
-    let assets = {}
-
-    const assetDiv = document.getElementById('assets')
-    for (let i=0; i < assetDiv.children.length; i++) {
-        let currNode = assetDiv.children[i]
-        if (!assets[currNode.tagName])
-            assets[currNode.tagName] = {}
-
-        assets[currNode.tagName][currNode.id] = currNode
-    }
-
-    return assets
-}
-
-let assets = load_assets()
-console.log(assets)
 
 let canvas = document.getElementById('game-canvas')
 let ctx = canvas.getContext('2d')
@@ -90,7 +70,7 @@ function run() {
 
     // console.log(performance.now() - last_time)
     // last_time = performance.now()
-    requestAnimationFrame(run)
+    // requestAnimationFrame(run)
 }
 
 run()
