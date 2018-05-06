@@ -1,6 +1,6 @@
 import Hitbox from './Hitbox'
 import Point from './Point'
-let flag = 4
+
 class Pathfinder {
     constructor(map) {
         this.map = map
@@ -9,32 +9,40 @@ class Pathfinder {
     
     _checkLineOfSight(node1, node2) {
         const gradient = (node1.hitbox.y - node2.hitbox.y) / (node1.hitbox.x - node2.hitbox.x)
-        const sign = gradient < 0 ? -1 : 1
+
+        let xt = gradient < 0 ? -1 : 1
+        let xb = gradient < 0 ? 1 : -1
     
-        let node1Top = new Point(node1.hitbox.x + -sign * node1.hitbox.width / 2, node1.hitbox.y + sign * node1.hitbox.height / 2)
-        let node1Bottom = new Point(node1.hitbox.x + sign * node1.hitbox.width / 2, node1.hitbox.y + -sign * node1.hitbox.height / 2)
-        if (flag > 0) console.log(node1Top, node1Bottom)
-    
-        let upperLine = point => point.y < gradient * (point.x - node1Bottom.x) + node1Bottom.y
+        let node1Bottom = new Point(node1.hitbox.x + xb * node1.hitbox.width / 2, node1.hitbox.y + node1.hitbox.height / 2)
+        let node1Top = new Point(node1.hitbox.x + xt * node1.hitbox.width / 2, node1.hitbox.y + -node1.hitbox.height / 2)
+        
         let lowerLine = point => point.y > gradient * (point.x - node1Top.x) + node1Top.y
+        let upperLine = point => point.y < gradient * (point.x - node1Bottom.x) + node1Bottom.y
+
+        // console.log(node1, node1Top, node1Bottom)
+
+        let firstCheck = new Hitbox(
+            node1.hitbox.x + (node2.hitbox.x - node1.hitbox.x) / 2,
+            node1.hitbox.y + (node2.hitbox.y - node1.hitbox.y) / 2,
+            Math.max(node1.hitbox.x - node2.hitbox.x + node1.hitbox.width, node2.hitbox.x - node1.hitbox.x + node2.hitbox.width),
+            Math.max(node1.hitbox.y - node2.hitbox.y + node1.hitbox.height, node2.hitbox.y - node1.hitbox.y + node2.hitbox.height)
+        )
 
         for (let obstacle of this.map.obstacles) {
-            let obsTop = new Point(obstacle.x + -sign * obstacle.width, obstacle.y + sign * obstacle.height)
-            let obsBottom = new Point(obstacle.x + sign * obstacle.width, obstacle.y + -sign * obstacle.height)
+            if (firstCheck.detectCollision(obstacle.hitbox)) {
+                let obsBottom = new Point(obstacle.x + xb * obstacle.width / 2, obstacle.y + obstacle.height / 2)
+                let obsTop = new Point(obstacle.x + xt * obstacle.width / 2, obstacle.y + -obstacle.height / 2)
+                // console.log(obsBottom, lowerLine(obsBottom), obsTop, upperLine(obsTop))
 
-            if (flag > 0) {
-                console.log(obsTop, upperLine(obsTop), obsBottom, lowerLine(obsBottom))
-                flag--
+                if (lowerLine(obsBottom) && upperLine(obsTop)) return false
             }
-
-            if (upperLine(obsTop) && lowerLine(obsBottom)) return false
         }
 
         return true
     }
 
     _buildNetwork(box) {
-        let adjacencyList = []
+        let adjacencyList = [{ node: { hitbox: new Hitbox(100, 400, 40, 20) }, edges: [] }, { node: { hitbox: new Hitbox(400, 100, 40, 20) }, edges: [] }]
 
         for (let focusedObstacle of this.map.obstacles) {
             const nodes = focusedObstacle.getNodes(box)
@@ -66,6 +74,7 @@ class Pathfinder {
         
         const key = 'w' + box.width + 'h' + box.height
         if (!(key in this.networks)) {
+            console.log(this.map.obstacles)
             let network = this._buildNetwork(box)
             this.networks[key] = network
         }

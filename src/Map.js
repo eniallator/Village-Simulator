@@ -10,9 +10,10 @@ class Map {
         this.pathfinder = new Pathfinder(this)
 
         this.obstacles = []
-        this.villages = [new Village(this, this.boundary.x / 2, this.boundary.y / 2)]
-        for (let i = 0; i < 1; i++)
-            this.obstacles.push(new Building(this, Math.random() * this.boundary.x, Math.random() * this.boundary.y, 40, 20))
+        this.villages = [/*new Village(this, this.boundary.x / 2, this.boundary.y / 2)*/]
+        // for (let i = 0; i < 2; i++)
+        //     new Building(this, Math.random() * this.boundary.x, Math.random() * this.boundary.y, 40, 20)
+        this.b = new Building(this, 250, 250, 40, 20)
         
         this.pathfinder.addNetwork(new Hitbox(1, 1, 20, 15))
     }
@@ -42,13 +43,20 @@ class Map {
     draw(ctx) {
         for (let village of this.villages)
             village.draw(ctx)
-        
+
+        ctx.strokeStyle = 'black'
+
+        for (let obstacle of this.obstacles)
+            obstacle.hitbox.draw(ctx)
+
         if (Object.keys(this.pathfinder.networks).length) {
-            ctx.strokeStyle = 'lime'
             const key = Object.keys(this.pathfinder.networks)[0]
             let net = this.pathfinder.networks[key]
             for (let instance of net) {
+                ctx.strokeStyle = 'blue'
+                instance.node.hitbox.draw(ctx)
                 for (let edge of instance.edges) {
+                    ctx.strokeStyle = 'lime'
                     ctx.beginPath()
                     ctx.moveTo(instance.node.hitbox.x, instance.node.hitbox.y)
                     ctx.lineTo(net[edge].node.hitbox.x, net[edge].node.hitbox.y)
