@@ -29,7 +29,7 @@ class Map {
 
     checkCollision(box) {
         for (let obstacle of this.obstacles) {
-            if (box.detectCollision(obstacle))
+            if (box.detectCollision(obstacle.hitbox))
                 return true
         }
     }
