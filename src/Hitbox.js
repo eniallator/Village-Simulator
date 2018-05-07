@@ -20,9 +20,9 @@ class Hitbox {
         
         return (box instanceof Hitbox) &&
             this.x - this.width / 2 < box.x + box.width / 2 &&
-            box.x - box.width / 2 <= this.x + this.width / 2 &&
+            box.x - box.width / 2 < this.x + this.width / 2 &&
             this.y - this.height / 2 < box.y + box.height / 2 &&
-            box.y - box.height / 2 <= this.y + this.height / 2
+            box.y - box.height / 2 < this.y + this.height / 2
     }
 
     draw(ctx) {

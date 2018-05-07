@@ -22,11 +22,12 @@ class Pathfinder {
         // console.log(node1, node1Top, node1Bottom)
 
         let firstCheck = new Hitbox(
-            node1.hitbox.x + (node2.hitbox.x - node1.hitbox.x) / 2,
-            node1.hitbox.y + (node2.hitbox.y - node1.hitbox.y) / 2,
-            Math.max(node1.hitbox.x - node2.hitbox.x + node1.hitbox.width, node2.hitbox.x - node1.hitbox.x + node2.hitbox.width),
-            Math.max(node1.hitbox.y - node2.hitbox.y + node1.hitbox.height, node2.hitbox.y - node1.hitbox.y + node2.hitbox.height)
+            node1.hitbox.x + (node2.hitbox.x - node1.hitbox.x) / 2 + 0.25,
+            node1.hitbox.y + (node2.hitbox.y - node1.hitbox.y) / 2 + 0.25,
+            Math.max(node1.hitbox.x - node2.hitbox.x + node1.hitbox.width, node2.hitbox.x - node1.hitbox.x + node2.hitbox.width) - 0.5,
+            Math.max(node1.hitbox.y - node2.hitbox.y + node1.hitbox.height, node2.hitbox.y - node1.hitbox.y + node2.hitbox.height) - 0.5
         )
+        // console.log('firstCheck ',firstCheck)
 
         for (let obstacle of this.map.obstacles) {
             if (firstCheck.detectCollision(obstacle.hitbox)) {
@@ -42,7 +43,7 @@ class Pathfinder {
     }
 
     _buildNetwork(box) {
-        let adjacencyList = [{ node: { hitbox: new Hitbox(100, 400, 40, 20) }, edges: [] }, { node: { hitbox: new Hitbox(400, 100, 40, 20) }, edges: [] }]
+        let adjacencyList = []
 
         for (let focusedObstacle of this.map.obstacles) {
             const nodes = focusedObstacle.getNodes(box)

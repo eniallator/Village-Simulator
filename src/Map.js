@@ -11,9 +11,13 @@ class Map {
 
         this.obstacles = []
         this.villages = [/*new Village(this, this.boundary.x / 2, this.boundary.y / 2)*/]
-        // for (let i = 0; i < 2; i++)
+        // for (let i = 0; i < 5; i++)
         //     new Building(this, Math.random() * this.boundary.x, Math.random() * this.boundary.y, 40, 20)
-        this.b = new Building(this, 250, 250, 40, 20)
+        new Building(this, 128.11692413715804, 357.8589330940374, 40, 20)
+        new Building(this, 232.03693918298669, 155.7435498624676, 40, 20)
+        new Building(this, 378.05638449034166, 283.423314455419, 40, 20)
+        new Building(this, 473.8763367217239, 420.1135087049392, 40, 20)
+        new Building(this, 543.6433718264632, 243.64415717211193, 40, 20)
         
         this.pathfinder.addNetwork(new Hitbox(1, 1, 20, 15))
     }
