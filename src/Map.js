@@ -1,4 +1,4 @@
-import Pathfinder from './Pathfinder'
+import Pathfinder from './Pathfinding/Pathfinder'
 import Village from './Village'
 
 import Building from './Building'
@@ -55,19 +55,7 @@ class Map {
 
         if (Object.keys(this.pathfinder.networks).length) {
             const key = Object.keys(this.pathfinder.networks)[0]
-            let net = this.pathfinder.networks[key]
-            for (let instance of net) {
-                ctx.strokeStyle = 'blue'
-                instance.node.hitbox.draw(ctx)
-                for (let edge of instance.edges) {
-                    ctx.strokeStyle = 'lime'
-                    ctx.beginPath()
-                    ctx.moveTo(instance.node.hitbox.x, instance.node.hitbox.y)
-                    ctx.lineTo(net[edge].node.hitbox.x, net[edge].node.hitbox.y)
-                    ctx.stroke()
-                }
-            }
-            ctx.strokeStyle = 'black'
+            this.pathfinder.networks[key].draw(ctx)
         }
     }
 }
