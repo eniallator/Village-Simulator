@@ -42,6 +42,10 @@ class Point {
         }
     }
 
+    checkEquals(point) {
+        return point.x === this.x && point.y === this.y
+    }
+
     getNormalised() {
         if (this.x || this.y) {
             const total = Math.sqrt(this.x * this.x + this.y * this.y)
@@ -52,9 +56,8 @@ class Point {
     }
 
     getDifference(point) {
-        if (point instanceof Point) {
+        if (point instanceof Point)
             return new Point(point.x - this.x, point.y - this.y)
-        }
     }
 
     getMagnitude() {

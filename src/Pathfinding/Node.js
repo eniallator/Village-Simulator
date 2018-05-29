@@ -5,7 +5,7 @@ class Node {
     }
 
     getDistance(node) {
-        return this.distanceMultiplier * Math.sqrt(Math.pow(this.x - node.x) + Math.pow(this.y - node.y))
+        return this.distanceMultiplier * Math.sqrt(Math.pow(this.x - node.x, 2) + Math.pow(this.y - node.y, 2))
     }
 
     get x() {return this.pos.x}
