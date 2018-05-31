@@ -43,8 +43,6 @@ class Pathfinder {
             this.networks[key] = network
         }
 
-        this.networks[key].getShortestRoute(0, 15)
-
         return true
     }
 }

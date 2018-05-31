@@ -55,7 +55,14 @@ class Map {
         if (Object.keys(this.pathfinder.networks).length) {
             const key = Object.keys(this.pathfinder.networks)[0]
             this.pathfinder.networks[key].draw(ctx)
-            const points = this.pathfinder.networks[key].getShortestRoute(0, 12)
+            const totalNodes = this.pathfinder.networks[key].adjacencyList.length
+            // const srcIndex = Math.floor(Math.random() * totalNodes)
+            // let destIndex = Math.floor(Math.random() * (totalNodes - 1))
+            // destIndex += destIndex >= srcIndex ? 1 : 0
+            const srcIndex = 6
+            const destIndex = 8
+            console.log(srcIndex, destIndex)
+            const points = this.pathfinder.networks[key].getShortestRoute(srcIndex, destIndex)
 
             for (let i = 1; i < points.length; i++) {
                 ctx.strokeStyle = 'red'

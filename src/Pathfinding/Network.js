@@ -27,8 +27,8 @@ class Network {
         let surroundingBox = new Hitbox(
             Math.ceil(node1.x + (node2.x - node1.x) / 2),
             Math.ceil(node1.y + (node2.y - node1.y) / 2),
-            Math.max(node1.x - node2.x + this.nodeWidth, node2.x - node1.x + this.nodeWidth),
-            Math.max(node1.y - node2.y + this.nodeHeight, node2.y - node1.y + this.nodeHeight)
+            ~~Math.max(node1.x - node2.x + this.nodeWidth, node2.x - node1.x + this.nodeWidth),
+            ~~Math.max(node1.y - node2.y + this.nodeHeight, node2.y - node1.y + this.nodeHeight)
         )
 
         for (let obstacle of this.obstacles) {
@@ -47,7 +47,8 @@ class Network {
         if (newNode instanceof Node) {
             const newInstance = { node: newNode, edges: [] }
 
-            for (let currIndex in this.adjacencyList) {
+            for (let i in this.adjacencyList) {
+                const currIndex = Number(i)
                 const currNode = this.adjacencyList[currIndex].node
 
                 if (this._checkLineOfSight(newNode, currNode)) {
@@ -78,6 +79,7 @@ class Network {
 
         while (priorityQueue.length) {
             if (!breakCounter--) throw new Error('Reactor overloaded')
+            console.log('priority queue:', JSON.stringify(priorityQueue))
             currNode = priorityQueue.shift()
 
             if (currNode.index === destIndex) break
@@ -104,6 +106,8 @@ class Network {
                 for (let instance of priorityQueue) {
                     if (instance.totalValue < totalValue) {
                         queueIndex++
+                    } else {
+                        break
                     }
                 }
 
