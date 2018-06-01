@@ -56,11 +56,9 @@ class Map {
             const key = Object.keys(this.pathfinder.networks)[0]
             this.pathfinder.networks[key].draw(ctx)
             const totalNodes = this.pathfinder.networks[key].adjacencyList.length
-            // const srcIndex = Math.floor(Math.random() * totalNodes)
-            // let destIndex = Math.floor(Math.random() * (totalNodes - 1))
-            // destIndex += destIndex >= srcIndex ? 1 : 0
-            const srcIndex = 6
-            const destIndex = 8
+            const srcIndex = Math.floor(Math.random() * totalNodes)
+            let destIndex = Math.floor(Math.random() * (totalNodes - 1))
+            destIndex += destIndex >= srcIndex ? 1 : 0
             console.log(srcIndex, destIndex)
             const points = this.pathfinder.networks[key].getShortestRoute(srcIndex, destIndex)
 

@@ -18,23 +18,25 @@ class Network {
         const xt = gradient < 0 ? -1 : 1
         const xb = gradient < 0 ? 1 : -1
 
-        let node1Top = new Point(node1.x + xt * this.nodeWidth / 2, node1.y - this.nodeHeight / 2)
-        let node1Bottom = new Point(node1.x + xb * this.nodeWidth / 2, node1.y + this.nodeHeight / 2)
+        const node1Top = new Point(node1.x + xt * this.nodeWidth / 2, node1.y - this.nodeHeight / 2)
+        const node1Bottom = new Point(node1.x + xb * this.nodeWidth / 2, node1.y + this.nodeHeight / 2)
 
-        let checkLowerBound = point => point.y > gradient * (point.x - node1Top.x) + node1Top.y
-        let checkUpperBound = point => point.y < gradient * (point.x - node1Bottom.x) + node1Bottom.y
+        const checkLowerBound = point => point.y > gradient * (point.x - node1Top.x) + node1Top.y
+        const checkUpperBound = point => point.y < gradient * (point.x - node1Bottom.x) + node1Bottom.y
 
-        let surroundingBox = new Hitbox(
-            Math.ceil(node1.x + (node2.x - node1.x) / 2),
-            Math.ceil(node1.y + (node2.y - node1.y) / 2),
-            ~~Math.max(node1.x - node2.x + this.nodeWidth, node2.x - node1.x + this.nodeWidth),
-            ~~Math.max(node1.y - node2.y + this.nodeHeight, node2.y - node1.y + this.nodeHeight)
+        const roundingOffset = 0.000000001
+
+        const surroundingBox = new Hitbox(
+            node1.x + (node2.x - node1.x) / 2 + roundingOffset,
+            node1.y + (node2.y - node1.y) / 2 + roundingOffset,
+            Math.max(node1.x - node2.x + this.nodeWidth, node2.x - node1.x + this.nodeWidth) - 2 * roundingOffset,
+            Math.max(node1.y - node2.y + this.nodeHeight, node2.y - node1.y + this.nodeHeight) - 2 * roundingOffset
         )
 
         for (let obstacle of this.obstacles) {
             if (surroundingBox.detectCollision(obstacle.hitbox)) {
-                let obsTop = new Point(obstacle.x + xt * obstacle.width / 2, obstacle.y - obstacle.height / 2)
-                let obsBottom = new Point(obstacle.x + xb * obstacle.width / 2, obstacle.y + obstacle.height / 2)
+                const obsTop = new Point(obstacle.x + xt * obstacle.width / 2, obstacle.y - obstacle.height / 2)
+                const obsBottom = new Point(obstacle.x + xb * obstacle.width / 2, obstacle.y + obstacle.height / 2)
 
                 if (checkLowerBound(obsBottom) && checkUpperBound(obsTop)) return false
             }
@@ -123,7 +125,6 @@ class Network {
         }
 
         let fastestRoute = [this.adjacencyList[destIndex].node.pos]
-        let srcNotFound = true
         let lastIndex = currNode.prevNodeIndex
 
         while (lastIndex !== srcIndex) {
