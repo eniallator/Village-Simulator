@@ -8,12 +8,12 @@ class Point {
         [this.x, this.y] = transform(value)
     }
 
-    add(pointOrX, y=null) {
+    add(pointOrX, y = null) {
         let addition = point => [this.x + point.x, this.y + point.y]
 
         if (pointOrX instanceof Point) {
             this._operation(pointOrX, addition)
-        } else if (typeof(pointOrX) === 'number' && typeof(y) === 'number'){
+        } else if (typeof pointOrX === 'number' && typeof y === 'number') {
             this._operation(new Point(pointOrX, y), addition)
         } else {
             console.error('Error Point.add didn\'t receive the correct arguments')
@@ -25,7 +25,7 @@ class Point {
 
         if (pointOrX instanceof Point) {
             this._operation(pointOrX, subtraction)
-        } else if (typeof (pointOrX) === 'number' && typeof (y) === 'number') {
+        } else if (typeof pointOrX === 'number' && typeof y === 'number') {
             this._operation(new Point(pointOrX, y), subtraction)
         } else {
             console.error('Error Point.add didn\'t receive the correct arguments')
@@ -35,7 +35,7 @@ class Point {
     multiply(value) {
         let multiply = value => [this.x * value, this.y * value]
 
-        if (typeof(value) === 'number') {
+        if (typeof value === 'number') {
             this._operation(value, multiply)
         } else {
             console.error('Error Point.multiply didn\'t receive the correct arguments')
@@ -56,8 +56,7 @@ class Point {
     }
 
     getDifference(point) {
-        if (point instanceof Point)
-            return new Point(point.x - this.x, point.y - this.y)
+        if (point instanceof Point) return new Point(point.x - this.x, point.y - this.y)
     }
 
     getMagnitude() {

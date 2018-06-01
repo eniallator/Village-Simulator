@@ -5,16 +5,17 @@ import still_path from '../assets/images/villager/still.png'
 const still = new Image()
 still.src = still_path
 
-
 class Villager extends Entity {
     constructor(map, x, y) {
         const sideLength = still.width * 2
         super(x, y, sideLength, sideLength * 2)
 
         this.map = map
-        
+
         this.actions = {
-            walk: function(task) { if (!this.hitbox.detectCollision(task.hitbox)) this.moveTo(task.hitbox.pos) }
+            walk: function(task) {
+                if (!this.hitbox.detectCollision(task.hitbox)) this.moveTo(task.hitbox.pos)
+            }
         }
         this.taskQueue = []
         this.speed = 1
@@ -23,7 +24,7 @@ class Villager extends Entity {
     moveTo(point) {
         const diff = this.pos.getDifference(point)
         const norm = diff.getNormalised()
-        
+
         const diffMagnitude = diff.getMagnitude()
         if (diffMagnitude < this.speed) {
             norm.multiply(diffMagnitude)
@@ -35,9 +36,8 @@ class Villager extends Entity {
     }
 
     addTask(task) {
-        if (!(task instanceof Task))
-            return
-        
+        if (!(task instanceof Task)) return
+
         this.taskQueue.push(task)
     }
 

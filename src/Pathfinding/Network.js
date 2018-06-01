@@ -58,7 +58,6 @@ class Network {
                     this.adjacencyList[currIndex].edges.push(this.adjacencyList.length)
                 }
             }
-
             this.adjacencyList.push(newInstance)
         }
     }

@@ -17,13 +17,11 @@ class Village {
     }
 
     update() {
-        for (let villager of this.villagers)
-            villager.update()
+        for (let villager of this.villagers) villager.update()
     }
 
     draw(ctx) {
-        for (let villager of this.villagers)
-            villager.draw(ctx)
+        for (let villager of this.villagers) villager.draw(ctx)
     }
 }
 
