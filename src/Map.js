@@ -3,6 +3,8 @@ import Village from './Village'
 
 import Building from './Building'
 import Hitbox from './Hitbox'
+import Node from './Pathfinding/Node'
+import Point from './Point'
 
 class Map {
     constructor(mapLimit) {
@@ -57,13 +59,13 @@ class Map {
             this.pathfinder.networks[key].draw(ctx)
             const totalNodes = this.pathfinder.networks[key].adjacencyList.length
             const srcIndex = Math.floor(Math.random() * totalNodes)
-            let destIndex = Math.floor(Math.random() * (totalNodes - 1))
-            destIndex += destIndex >= srcIndex ? 1 : 0
-            console.log(srcIndex, destIndex)
-            const points = this.pathfinder.networks[key].getShortestRoute(srcIndex, destIndex)
+            const destNode = new Node(new Point(Math.random() * 960, Math.random() * 540))
+            console.log(srcIndex)
+            console.log(destNode.pos)
+            const points = this.pathfinder.networks[key].getShortestRoute(srcIndex, destNode)
 
             for (let i = 1; i < points.length; i++) {
-                ctx.strokeStyle = 'red'
+                ctx.strokeStyle = `rgb(${(i / points.length) * 255}, 0, 0)`
                 ctx.beginPath()
                 ctx.moveTo(points[i - 1].x, points[i - 1].y)
                 ctx.lineTo(points[i].x, points[i].y)

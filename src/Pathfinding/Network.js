@@ -18,8 +18,8 @@ class Network {
         const xt = gradient < 0 ? -1 : 1
         const xb = gradient < 0 ? 1 : -1
 
-        const node1Top = new Point(node1.x + xt * this.nodeWidth / 2, node1.y - this.nodeHeight / 2)
-        const node1Bottom = new Point(node1.x + xb * this.nodeWidth / 2, node1.y + this.nodeHeight / 2)
+        const node1Top = new Point(node1.x + (xt * this.nodeWidth) / 2, node1.y - this.nodeHeight / 2)
+        const node1Bottom = new Point(node1.x + (xb * this.nodeWidth) / 2, node1.y + this.nodeHeight / 2)
 
         const checkLowerBound = point => point.y > gradient * (point.x - node1Top.x) + node1Top.y
         const checkUpperBound = point => point.y < gradient * (point.x - node1Bottom.x) + node1Bottom.y
@@ -27,16 +27,16 @@ class Network {
         const roundingOffset = 0.000000001
 
         const surroundingBox = new Hitbox(
-            node1.x + (node2.x - node1.x) / 2 + roundingOffset,
-            node1.y + (node2.y - node1.y) / 2 + roundingOffset,
-            Math.max(node1.x - node2.x + this.nodeWidth, node2.x - node1.x + this.nodeWidth) - 2 * roundingOffset,
-            Math.max(node1.y - node2.y + this.nodeHeight, node2.y - node1.y + this.nodeHeight) - 2 * roundingOffset
+            node1.x + (node2.x - node1.x) / 2,
+            node1.y + (node2.y - node1.y) / 2,
+            Math.max(node1.x - node2.x + this.nodeWidth, node2.x - node1.x + this.nodeWidth) - roundingOffset,
+            Math.max(node1.y - node2.y + this.nodeHeight, node2.y - node1.y + this.nodeHeight) - roundingOffset
         )
 
         for (let obstacle of this.obstacles) {
             if (surroundingBox.detectCollision(obstacle.hitbox)) {
-                const obsTop = new Point(obstacle.x + xt * obstacle.width / 2, obstacle.y - obstacle.height / 2)
-                const obsBottom = new Point(obstacle.x + xb * obstacle.width / 2, obstacle.y + obstacle.height / 2)
+                const obsTop = new Point(obstacle.x + (xt * obstacle.width) / 2, obstacle.y - obstacle.height / 2)
+                const obsBottom = new Point(obstacle.x + (xb * obstacle.width) / 2, obstacle.y + obstacle.height / 2)
 
                 if (checkLowerBound(obsBottom) && checkUpperBound(obsTop)) return false
             }
@@ -62,11 +62,17 @@ class Network {
         }
     }
 
-    getShortestRoute(srcIndex, destIndex) {
+    getShortestRoute(srcIndex, destNode) {
         const aList = this.adjacencyList
 
         let checkedNodes = []
         let priorityQueue = []
+
+        let dest = {
+            node: destNode,
+            totalWeight: -1,
+            prevNodeIndex: -1
+        }
 
         priorityQueue.push({
             totalValue: 0,
@@ -80,17 +86,25 @@ class Network {
 
         while (priorityQueue.length) {
             if (!breakCounter--) throw new Error('Reactor overloaded')
-            console.log('priority queue:', JSON.stringify(priorityQueue))
             currNode = priorityQueue.shift()
+            const canSeeDest = this._checkLineOfSight(destNode, aList[currNode.index].node)
 
-            if (currNode.index === destIndex) break
+            if (dest.totalWeight >= 0 && dest.totalWeight <= currNode.totalValue) break
 
             for (let edge of aList[currNode.index].edges) {
                 if (checkedNodes.some(node => node.index === edge)) continue
 
-                const hierarchicalValue = aList[destIndex].node.getDistance(aList[edge].node)
+                const hierarchicalValue = destNode.getDistance(aList[edge].node)
                 const totalWeight = aList[currNode.index].node.getDistance(aList[edge].node) + currNode.totalWeight
                 const totalValue = hierarchicalValue + totalWeight
+
+                if (canSeeDest) {
+                    const dist = destNode.getDistance(aList[currNode.index].node)
+                    if (dest.totalWeight < 0 || dist < dest.totalWeight) {
+                        dest.totalWeight = dist
+                        dest.prevNodeIndex = currNode.index
+                    }
+                }
 
                 const priorityEdgeIndex = priorityQueue.findIndex(el => el.index === edge)
 
@@ -123,12 +137,14 @@ class Network {
             checkedNodes.push(currNode)
         }
 
-        let fastestRoute = [this.adjacencyList[destIndex].node.pos]
-        let lastIndex = currNode.prevNodeIndex
+        let fastestRoute = [destNode.pos]
+        let lastIndex = dest.prevNodeIndex
 
-        while (lastIndex !== srcIndex) {
-            fastestRoute.unshift(this.adjacencyList[lastIndex].node.pos)
-            lastIndex = checkedNodes.find(el => el.index === lastIndex).prevNodeIndex
+        if (dest.prevNodeIndex >= 0) {
+            while (lastIndex !== srcIndex) {
+                fastestRoute.unshift(this.adjacencyList[lastIndex].node.pos)
+                lastIndex = checkedNodes.find(el => el.index === lastIndex).prevNodeIndex
+            }
         }
 
         fastestRoute.unshift(this.adjacencyList[srcIndex].node.pos)
