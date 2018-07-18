@@ -1,7 +1,14 @@
+import Point from '../Point'
+
 class Node {
-    constructor(pos, distanceMultiplier = 1) {
-        this.pos = pos
-        this.distanceMultiplier = distanceMultiplier
+    constructor(pointOrX, y, distanceMultiplier = 1) {
+        if (pointOrX instanceof Point) {
+            this.pos = pointOrX
+            this.distanceMultiplier = y || 1
+        } else {
+            this.pos = new Point(pointOrX, y)
+            this.distanceMultiplier = distanceMultiplier
+        }
     }
 
     getDistance(node) {

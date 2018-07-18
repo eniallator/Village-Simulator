@@ -62,7 +62,8 @@ class Network {
         }
     }
 
-    getShortestRoute(srcIndex, destNode) {
+    getShortestRoute(srcNode, destNode) {
+        // Possibly implement some validation of the destination node so that whatever is navigating the network can actually get there
         const aList = this.adjacencyList
 
         let checkedNodes = []
@@ -74,47 +75,12 @@ class Network {
             prevNodeIndex: -1
         }
 
-        priorityQueue.push({
-            totalValue: 0,
-            totalWeight: 0,
-            prevNode: -1,
-            index: srcIndex
-        })
-
-        let breakCounter = 10000
-        let currNode
-
-        while (priorityQueue.length) {
-            if (!breakCounter--) throw new Error('Reactor overloaded')
-            currNode = priorityQueue.shift()
-            const canSeeDest = this._checkLineOfSight(destNode, aList[currNode.index].node)
-
-            if (dest.totalWeight >= 0 && dest.totalWeight <= currNode.totalValue) break
-
-            for (let edge of aList[currNode.index].edges) {
-                if (checkedNodes.some(node => node.index === edge)) continue
-
-                const hierarchicalValue = destNode.getDistance(aList[edge].node)
-                const totalWeight = aList[currNode.index].node.getDistance(aList[edge].node) + currNode.totalWeight
+        for (let index in aList) {
+            const nodeRef = aList[index].node
+            if (this._checkLineOfSight(srcNode, nodeRef)) {
+                const hierarchicalValue = destNode.getDistance(nodeRef)
+                const totalWeight = srcNode.getDistance(nodeRef)
                 const totalValue = hierarchicalValue + totalWeight
-
-                if (canSeeDest) {
-                    const dist = destNode.getDistance(aList[currNode.index].node)
-                    if (dest.totalWeight < 0 || dist < dest.totalWeight) {
-                        dest.totalWeight = dist
-                        dest.prevNodeIndex = currNode.index
-                    }
-                }
-
-                const priorityEdgeIndex = priorityQueue.findIndex(el => el.index === edge)
-
-                if (priorityEdgeIndex > -1) {
-                    const priorityEdge = priorityQueue[priorityEdgeIndex]
-
-                    if (priorityEdge.totalValue <= totalValue) continue
-
-                    priorityQueue.splice(priorityEdgeIndex, 1)
-                }
 
                 let queueIndex = 0
 
@@ -127,27 +93,80 @@ class Network {
                 }
 
                 priorityQueue.splice(queueIndex, 0, {
-                    index: edge,
-                    prevNodeIndex: currNode.index,
+                    index,
+                    prevNodeIndex: -1,
                     totalValue,
                     totalWeight
                 })
             }
+        }
 
-            checkedNodes.push(currNode)
+        let breakCounter = 10000
+        let currNode
+
+        if (!this._checkLineOfSight(srcNode, destNode)) {
+            while (priorityQueue.length) {
+                if (!breakCounter--) throw new Error('Reactor overloaded')
+                currNode = priorityQueue.shift()
+                const canSeeDest = this._checkLineOfSight(destNode, aList[currNode.index].node)
+
+                if (dest.totalWeight >= 0 && dest.totalWeight <= currNode.totalValue) break
+
+                for (let edge of aList[currNode.index].edges) {
+                    if (checkedNodes.some(node => node.index === edge)) continue
+
+                    const hierarchicalValue = destNode.getDistance(aList[edge].node)
+                    const totalWeight = aList[currNode.index].node.getDistance(aList[edge].node) + currNode.totalWeight
+                    const totalValue = hierarchicalValue + totalWeight
+
+                    if (canSeeDest) {
+                        const dist = destNode.getDistance(aList[currNode.index].node)
+                        if (dest.totalWeight < 0 || dist < dest.totalWeight) {
+                            dest.totalWeight = dist
+                            dest.prevNodeIndex = currNode.index
+                        }
+                    }
+
+                    const priorityEdgeIndex = priorityQueue.findIndex(el => el.index === edge)
+
+                    if (priorityEdgeIndex > -1) {
+                        const priorityEdge = priorityQueue[priorityEdgeIndex]
+
+                        if (priorityEdge.totalValue <= totalValue) continue
+
+                        priorityQueue.splice(priorityEdgeIndex, 1)
+                    }
+
+                    let queueIndex = 0
+
+                    for (let instance of priorityQueue) {
+                        if (instance.totalValue < totalValue) {
+                            queueIndex++
+                        } else {
+                            break
+                        }
+                    }
+
+                    priorityQueue.splice(queueIndex, 0, {
+                        index: edge,
+                        prevNodeIndex: currNode.index,
+                        totalValue,
+                        totalWeight
+                    })
+                }
+
+                checkedNodes.push(currNode)
+            }
         }
 
         let fastestRoute = [destNode.pos]
         let lastIndex = dest.prevNodeIndex
 
-        if (dest.prevNodeIndex >= 0) {
-            while (lastIndex !== srcIndex) {
-                fastestRoute.unshift(this.adjacencyList[lastIndex].node.pos)
-                lastIndex = checkedNodes.find(el => el.index === lastIndex).prevNodeIndex
-            }
+        while (lastIndex >= 0) {
+            fastestRoute.unshift(this.adjacencyList[lastIndex].node.pos)
+            lastIndex = checkedNodes.find(el => el.index === lastIndex).prevNodeIndex
         }
-
-        fastestRoute.unshift(this.adjacencyList[srcIndex].node.pos)
+        fastestRoute.unshift(srcNode.pos)
 
         return fastestRoute
     }
