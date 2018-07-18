@@ -64,7 +64,7 @@ class Map {
             const points = this.pathfinder.networks[key].getShortestRoute(srcNode, destNode)
 
             for (let i = 1; i < points.length; i++) {
-                ctx.strokeStyle = `rgb(${(i / points.length) * 255}, 0, 0)`
+                ctx.strokeStyle = `rgb(${255 - ((i - 1) / (points.length - 1)) * 255}, 0, 0)`
                 ctx.beginPath()
                 ctx.moveTo(points[i - 1].x, points[i - 1].y)
                 ctx.lineTo(points[i].x, points[i].y)
