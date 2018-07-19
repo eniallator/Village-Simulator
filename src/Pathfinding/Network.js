@@ -62,37 +62,31 @@ class Network {
         }
     }
 
-    getShortestRoute(srcNode, destNode) {
-        // Possibly implement some validation of the destination node so that whatever is navigating the network can actually get there
-        const aList = this.adjacencyList
+    _addToPriorityQueue(priorityQueue, item) {
+        let queueIndex = 0
 
-        let checkedNodes = []
-        let priorityQueue = []
-
-        let dest = {
-            node: destNode,
-            totalWeight: -1,
-            prevNodeIndex: -1
+        for (let instance of priorityQueue) {
+            if (instance.totalValue < item.totalValue) {
+                queueIndex++
+            } else {
+                break
+            }
         }
 
-        for (let index in aList) {
-            const nodeRef = aList[index].node
+        priorityQueue.splice(queueIndex, 0, item)
+    }
+
+    _initPriorityQueue(srcNode, destNode) {
+        let priorityQueue = []
+
+        for (let index in this.adjacencyList) {
+            const nodeRef = this.adjacencyList[index].node
             if (this._checkLineOfSight(srcNode, nodeRef)) {
                 const hierarchicalValue = destNode.getDistance(nodeRef)
                 const totalWeight = srcNode.getDistance(nodeRef)
                 const totalValue = hierarchicalValue + totalWeight
 
-                let queueIndex = 0
-
-                for (let instance of priorityQueue) {
-                    if (instance.totalValue < totalValue) {
-                        queueIndex++
-                    } else {
-                        break
-                    }
-                }
-
-                priorityQueue.splice(queueIndex, 0, {
+                this._addToPriorityQueue(priorityQueue, {
                     index,
                     prevNodeIndex: -1,
                     totalValue,
@@ -101,64 +95,76 @@ class Network {
             }
         }
 
+        return priorityQueue
+    }
+
+    getShortestRoute(srcNode, destNode) {
+        // Possibly implement some validation of the destination node so that whatever is navigating the network can actually get there
+        const aList = this.adjacencyList
+
+        let checkedNodes = []
+        let priorityQueue = []
+
+        if (!this._checkLineOfSight(srcNode, destNode)) priorityQueue = this._initPriorityQueue(srcNode, destNode)
+
+        let dest = {
+            node: destNode,
+            totalWeight: -1,
+            prevNodeIndex: -1
+        }
+
         let breakCounter = 10000
         let currNode
 
-        if (!this._checkLineOfSight(srcNode, destNode)) {
-            while (priorityQueue.length) {
-                if (!breakCounter--) throw new Error('Reactor overloaded')
-                currNode = priorityQueue.shift()
-                const canSeeDest = this._checkLineOfSight(destNode, aList[currNode.index].node)
+        while (priorityQueue.length) {
+            if (breakCounter-- <= 0) throw new Error('Reactor overloaded')
 
-                if (dest.totalWeight >= 0 && dest.totalWeight <= currNode.totalValue) break
+            currNode = priorityQueue.shift()
+            const canSeeDest = this._checkLineOfSight(destNode, aList[currNode.index].node)
 
-                for (let edge of aList[currNode.index].edges) {
-                    if (checkedNodes.some(node => node.index === edge)) continue
+            if (dest.totalWeight >= 0 && dest.totalWeight <= currNode.totalValue) break
 
-                    const hierarchicalValue = destNode.getDistance(aList[edge].node)
-                    const totalWeight = aList[currNode.index].node.getDistance(aList[edge].node) + currNode.totalWeight
-                    const totalValue = hierarchicalValue + totalWeight
+            for (let edge of aList[currNode.index].edges) {
+                // checks if the edge isn't already in checkedNodes
+                if (checkedNodes.some(node => node.index === edge)) continue
 
-                    if (canSeeDest) {
-                        const dist = destNode.getDistance(aList[currNode.index].node)
-                        if (dest.totalWeight < 0 || dist < dest.totalWeight) {
-                            dest.totalWeight = dist
-                            dest.prevNodeIndex = currNode.index
-                        }
+                // A* calculations
+                const hierarchicalValue = destNode.getDistance(aList[edge].node)
+                const totalWeight = aList[currNode.index].node.getDistance(aList[edge].node) + currNode.totalWeight
+                const totalValue = hierarchicalValue + totalWeight
+
+                // Updating the dest special case since it's not part of aList
+                if (canSeeDest) {
+                    const dist = destNode.getDistance(aList[currNode.index].node)
+                    if (dest.totalWeight < 0 || dist < dest.totalWeight) {
+                        dest.totalWeight = dist
+                        dest.prevNodeIndex = currNode.index
                     }
-
-                    const priorityEdgeIndex = priorityQueue.findIndex(el => el.index === edge)
-
-                    if (priorityEdgeIndex > -1) {
-                        const priorityEdge = priorityQueue[priorityEdgeIndex]
-
-                        if (priorityEdge.totalValue <= totalValue) continue
-
-                        priorityQueue.splice(priorityEdgeIndex, 1)
-                    }
-
-                    let queueIndex = 0
-
-                    for (let instance of priorityQueue) {
-                        if (instance.totalValue < totalValue) {
-                            queueIndex++
-                        } else {
-                            break
-                        }
-                    }
-
-                    priorityQueue.splice(queueIndex, 0, {
-                        index: edge,
-                        prevNodeIndex: currNode.index,
-                        totalValue,
-                        totalWeight
-                    })
                 }
 
-                checkedNodes.push(currNode)
+                // Checking if the edge is already in the priorityQueue and removing and re-adding it to the priority queue if it's totalValue is less than the calculated totalValue
+                const priorityEdgeIndex = priorityQueue.findIndex(el => el.index === edge)
+
+                if (priorityEdgeIndex > -1) {
+                    const priorityEdge = priorityQueue[priorityEdgeIndex]
+
+                    if (priorityEdge.totalValue <= totalValue) continue
+
+                    priorityQueue.splice(priorityEdgeIndex, 1)
+                }
+
+                this._addToPriorityQueue(priorityQueue, {
+                    index: edge,
+                    prevNodeIndex: currNode.index,
+                    totalValue,
+                    totalWeight
+                })
             }
+
+            checkedNodes.push(currNode)
         }
 
+        // Backtracking over the checkedNodes to figure out what was the fastest route
         let fastestRoute = [destNode.pos]
         let lastIndex = dest.prevNodeIndex
 
