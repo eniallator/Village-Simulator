@@ -1,10 +1,25 @@
 import Hitbox from '../Hitbox'
 import Network from './Network'
+import Node from './Node'
 
 class Pathfinder {
     constructor(map) {
         this.map = map
         this.networks = {}
+    }
+
+    _getNetworkKey(box) {
+        return 'w' + box.width + 'h' + box.height
+    }
+
+    _getNetwork(box) {
+        const key = this._getNetworkKey(box)
+
+        if (!(key in this.networks)) {
+            this.addNetwork(box)
+        }
+
+        return this.networks[key]
     }
 
     _buildNetwork(box) {
@@ -26,18 +41,29 @@ class Pathfinder {
         for (let network of Object.values(this.networks)) network.update = true
     }
 
-    getShortestRoute(box, destinationPoint) {}
+    getShortestRoute(box, destinationPoint) {
+        const srcNode = new Node(box.pos)
+        const destNode = new Node(destinationPoint)
+        let network = this._getNetwork(box)
+
+        return network.getShortestRoute(srcNode, destNode)
+    }
 
     addNetwork(box) {
         if (!(box instanceof Hitbox)) return false
 
-        const key = 'w' + box.width + 'h' + box.height
+        const key = this._getNetworkKey(box)
         if (!(key in this.networks)) {
             let network = this._buildNetwork(box)
             this.networks[key] = network
         }
 
         return true
+    }
+
+    drawNetwork(box, ctx) {
+        let network = this._getNetwork(box)
+        network.draw(ctx)
     }
 }
 

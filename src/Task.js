@@ -1,16 +1,15 @@
 class Task {
-    constructor(name, action, hitbox, target = null, active = true) {
+    constructor(name, action, hitbox) {
         this.name = name
         this.action = action
         this.hitbox = hitbox
-        this.target = target
-        this.active = active
+        this.data = {}
 
         return this
     }
 
     clone() {
-        return new Task(this.name, this.action, this.hitbox, this.target)
+        return new Task(this.name, this.action, this.hitbox)
     }
 }
 

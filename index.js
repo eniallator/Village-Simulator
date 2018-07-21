@@ -10,7 +10,7 @@ function run() {
     game.update()
     game.draw()
 
-    // requestAnimationFrame(run)
+    requestAnimationFrame(run)
 }
 
 run()
