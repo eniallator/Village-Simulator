@@ -3,7 +3,7 @@ import Point from './Point'
 class Hitbox {
     constructor(pointOrX, y, width, height = null) {
         if (pointOrX instanceof Point) {
-            this.pos = pointOrX
+            this.pos = new Point(pointOrX.x, pointOrX.y)
             this.width = y
             this.height = width
         } else {

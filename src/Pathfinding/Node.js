@@ -3,7 +3,7 @@ import Point from '../Point'
 class Node {
     constructor(pointOrX, y, distanceMultiplier = 1) {
         if (pointOrX instanceof Point) {
-            this.pos = pointOrX
+            this.pos = new Point(pointOrX.x, pointOrX.y)
             this.distanceMultiplier = y || 1
         } else {
             this.pos = new Point(pointOrX, y)
