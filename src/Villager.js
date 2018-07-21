@@ -56,6 +56,7 @@ class Villager extends Entity {
             if (done === true) this.taskQueue.shift()
         } else {
             let dest = new Hitbox(Math.random() * 960, Math.random() * 540, 1, 1)
+            console.log(this.pos)
             console.log(dest.pos)
             this.taskQueue.push(new Task('Random pathing', 'pathfind', dest))
         }
@@ -72,7 +73,7 @@ class Villager extends Entity {
         if (task && 'points' in task.data) {
             ctx.beginPath()
             ctx.moveTo(this.pos.x, this.pos.y)
-            ctx.lineTo(task.data.points[0].x, task.data.points[0].y)
+            ctx.lineTo(task.hitbox.pos.x, task.hitbox.pos.y)
             ctx.stroke()
         }
 

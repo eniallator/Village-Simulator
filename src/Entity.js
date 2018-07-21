@@ -3,14 +3,25 @@ import Hitbox from './Hitbox'
 
 class Entity {
     constructor(x, y, width, height) {
-        this.pos = new Point(x, y)
-        this.hitbox = new Hitbox(this.pos, width, height)
+        this.hitbox = new Hitbox(x, y, width, height)
     }
 
-    get x() { return this.pos.x }
-    get y() { return this.pos.y }
-    get width() { return this.hitbox.width }
-    get height() { return this.hitbox.height }
+    get pos() {
+        return this.hitbox.pos
+    }
+
+    get x() {
+        return this.hitbox.x
+    }
+    get y() {
+        return this.hitbox.y
+    }
+    get width() {
+        return this.hitbox.width
+    }
+    get height() {
+        return this.hitbox.height
+    }
 }
 
 export default Entity

@@ -14,12 +14,9 @@ class Building extends Entity {
         let nodes = []
         for (let xDir = -1; xDir <= 1; xDir += 2) {
             for (let yDir = -1; yDir <= 1; yDir += 2) {
-                let nodePos = new Point(
-                    this.pos.x + xDir * (this.width / 2 + hitbox.width / 2),
-                    this.pos.y + yDir * (this.height / 2 + hitbox.height / 2)
+                nodes.push(
+                    new Node(this.x + xDir * (this.width / 2 + hitbox.width / 2), this.y + yDir * (this.height / 2 + hitbox.height / 2))
                 )
-
-                nodes.push(new Node(nodePos))
             }
         }
         return nodes
