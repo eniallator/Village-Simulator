@@ -55,7 +55,9 @@ class Villager extends Entity {
 
             if (done === true) this.taskQueue.shift()
         } else {
-            let dest = new Hitbox(Math.random() * 960, Math.random() * 540, 1, 1)
+            let dest
+            do dest = new Hitbox(Math.random() * 960, Math.random() * 540, this.width, this.height)
+            while (this.map.checkCollision(dest))
             console.log(this.pos)
             console.log(dest.pos)
             this.taskQueue.push(new Task('Random pathing', 'pathfind', dest))

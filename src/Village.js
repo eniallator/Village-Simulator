@@ -1,6 +1,5 @@
 import VillageCentre from './VillageCentre'
 import Villager from './Villager'
-import Task from './task'
 
 class Village {
     constructor(map, x, y) {
