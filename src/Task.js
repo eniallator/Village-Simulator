@@ -7,10 +7,6 @@ class Task {
 
         return this
     }
-
-    clone() {
-        return new Task(this.name, this.action, this.hitbox)
-    }
 }
 
 export default Task
