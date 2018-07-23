@@ -58,8 +58,6 @@ class Villager extends Entity {
             let dest
             do dest = new Hitbox(Math.random() * 960, Math.random() * 540, this.width, this.height)
             while (this.map.checkCollision(dest))
-            console.log(this.pos)
-            console.log(dest.pos)
             this.taskQueue.push(new Task('Random pathing', 'pathfind', dest))
         }
     }
@@ -73,10 +71,15 @@ class Villager extends Entity {
 
         ctx.strokeStyle = 'red'
         if (task && 'points' in task.data) {
-            ctx.beginPath()
-            ctx.moveTo(this.pos.x, this.pos.y)
-            ctx.lineTo(task.hitbox.pos.x, task.hitbox.pos.y)
-            ctx.stroke()
+            const points = [this.pos].concat(task.data.points)
+
+            for (let i = 1; i < points.length; i++) {
+                ctx.strokeStyle = `rgb(${255 - ((i - 1) / (points.length - 1)) * 255}, 0, 0)`
+                ctx.beginPath()
+                ctx.moveTo(points[i - 1].x, points[i - 1].y)
+                ctx.lineTo(points[i].x, points[i].y)
+                ctx.stroke()
+            }
         }
 
         ctx.strokeStyle = 'white'
