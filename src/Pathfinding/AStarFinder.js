@@ -29,13 +29,16 @@ function initPriorityQueue(srcNode, destNode, aList, checkLineOfSight) {
 }
 
 function aStarFinder(srcNode, destNode, aList, checkLineOfSight) {
-    // Possibly implement some validation of the destination node so that whatever is navigating the network can actually get there
     const checkSuccess = (dest, currNode) => dest.totalWeight >= 0 && dest.totalWeight <= currNode.totalValue
 
     let checkedNodes = []
     let priorityQueue = []
+    let lineOfSight = true
 
-    if (!checkLineOfSight(srcNode, destNode)) priorityQueue = initPriorityQueue(srcNode, destNode, aList, checkLineOfSight)
+    if (!checkLineOfSight(srcNode, destNode)) {
+        lineOfSight = false
+        priorityQueue = initPriorityQueue(srcNode, destNode, aList, checkLineOfSight)
+    }
 
     let dest = {
         node: destNode,
@@ -103,6 +106,9 @@ function aStarFinder(srcNode, destNode, aList, checkLineOfSight) {
         lastIndex = checkedNodes.find(el => el.index === lastIndex).prevNodeIndex
     }
     fastestRoute.unshift(srcNode.pos)
+
+    // Hasn't found a valid path for pathfinding
+    if (!lineOfSight && fastestRoute.length === 2) console.log('Could not find a valid route when pathfinding')
 
     return fastestRoute
 }
