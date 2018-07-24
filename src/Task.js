@@ -1,9 +1,8 @@
 class Task {
-    constructor(name, action, hitbox) {
+    constructor(name, action, data = {}) {
         this.name = name
         this.action = action
-        this.hitbox = hitbox
-        this.data = {}
+        this.data = data
 
         return this
     }

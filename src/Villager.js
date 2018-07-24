@@ -15,11 +15,11 @@ class Villager extends Entity {
 
         this.actions = {
             walk: function(task) {
-                if (!this.hitbox.detectCollision(task.hitbox)) this.moveTo(task.hitbox.pos)
+                if (!this.hitbox.detectCollision(task.data.hitbox)) this.moveTo(task.data.hitbox.pos)
                 else return true
             },
             pathfind: function(task) {
-                if (!('points' in task.data)) task.data.points = this.map.pathfind(this.hitbox, task.hitbox.pos)
+                if (!('points' in task.data)) task.data.points = this.map.pathfind(this.hitbox, task.data.hitbox.pos)
                 if (task.data.points.length && this.pos.checkEquals(task.data.points[0])) task.data.points.shift()
                 if (!task.data.points.length) return true
                 this.moveTo(task.data.points[0])
@@ -58,7 +58,7 @@ class Villager extends Entity {
             let dest
             do dest = new Hitbox(Math.random() * 960, Math.random() * 540, this.width, this.height)
             while (this.map.checkCollision(dest))
-            this.taskQueue.push(new Task('Random pathing', 'pathfind', dest))
+            this.taskQueue.push(new Task('Random pathing', 'pathfind', { hitbox: dest }))
         }
     }
 
