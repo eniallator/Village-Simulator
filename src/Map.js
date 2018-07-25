@@ -11,7 +11,8 @@ class Map {
 
         this.obstacles = []
         this.villages = [new Village(this, this.mapLimit.x / 2, this.mapLimit.y / 2)]
-        for (let i = 0; i < 10; i++) new Building(this, Math.random() * this.mapLimit.x, Math.random() * this.mapLimit.y, 40, 20)
+        for (let i = 0; i < 10; i++)
+            this.registerObstacle(new Building(Math.random() * this.mapLimit.x, Math.random() * this.mapLimit.y, 40, 20))
         this._testHitbox = new Hitbox(Math.random() * 960, Math.random() * 540, 16, 16)
 
         this.pathfinder.addNetwork(this._testHitbox)

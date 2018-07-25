@@ -2,13 +2,6 @@ import Entity from './Entity'
 import Node from './Pathfinding/Node'
 
 class Building extends Entity {
-    constructor(map) {
-        let argArray = [...arguments].slice(1)
-        super(...argArray)
-
-        map.registerObstacle(this)
-    }
-
     getNodes(hitbox) {
         let nodes = []
         for (let xDir = -1; xDir <= 1; xDir += 2) {
