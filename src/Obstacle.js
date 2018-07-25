@@ -1,7 +1,7 @@
 import Entity from './Entity'
 import Node from './Pathfinding/Node'
 
-class Building extends Entity {
+class Obstacle extends Entity {
     getNodes(hitbox) {
         let nodes = []
         for (let xDir = -1; xDir <= 1; xDir += 2) {
@@ -15,4 +15,4 @@ class Building extends Entity {
     }
 }
 
-export default Building
+export default Obstacle

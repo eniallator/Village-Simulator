@@ -1,6 +1,6 @@
-import Building from './Building'
+import Obstacle from './Obstacle'
 
-class VillageCentre extends Building {
+class VillageCentre extends Obstacle {
     constructor(map, x, y) {
         super(map, x, y, 40, 40)
     }
