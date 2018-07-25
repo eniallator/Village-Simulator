@@ -14,10 +14,6 @@ class Villager extends Entity {
         this.map = map
 
         this.actions = {
-            walk: function(task) {
-                if (!this.hitbox.detectCollision(task.data.hitbox)) this.moveTo(task.data.hitbox.pos)
-                else return true
-            },
             pathfind: function(task) {
                 if (!('points' in task.data)) task.data.points = this.map.pathfind(this.hitbox, task.data.hitbox.pos)
                 if (task.data.points.length && this.pos.checkEquals(task.data.points[0])) task.data.points.shift()

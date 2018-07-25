@@ -1,5 +1,4 @@
 import Entity from './Entity'
-import Point from './Point'
 import Node from './Pathfinding/Node'
 
 class Building extends Entity {
