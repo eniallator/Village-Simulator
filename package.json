@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "A simulator game where you control what villager's tasks are to do and slowly progress the village by building buildings and also upgrading existing ones.",
   "main": "index.js",
+  "browserslist": [
+    "last 2 Chrome versions"
+  ],
+  "eslintIgnore": [
+    "dist"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel index.html --no-hmr"
